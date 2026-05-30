@@ -42,7 +42,9 @@ export function buildQueue(now = Date.now()) {
   // new: by frequency rank (most useful first)
   fresh.sort((a, b) => a.rank - b.rank);
 
-  const newBudget = Math.max(0, settings.newPerDay - newLearnedToday());
+  const newBudget = settings.endless
+    ? fresh.length // marathon: no daily cap, pull every new word by frequency
+    : Math.max(0, settings.newPerDay - newLearnedToday());
   const newWords = fresh.slice(0, newBudget);
 
   return { due: due.map((w) => w.id), fresh: newWords.map((w) => w.id) };

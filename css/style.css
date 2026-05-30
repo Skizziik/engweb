@@ -98,7 +98,12 @@ h1, h2, h3 { margin: 0 0 .3em; font-weight: 750; letter-spacing: -0.02em; }
 .pill span { font-size: 11px; color: var(--muted); }
 .pill.due b { color: var(--info); }
 .pill.new b { color: var(--good); }
-.start-btn { margin-top: 18px; }
+.endless-row { display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-top: 16px; }
+.endless-text { display: flex; flex-direction: column; }
+.endless-title { font-weight: 700; }
+.endless-sub { font-size: 12px; color: var(--muted); }
+.start-btn { margin-top: 14px; }
 .done-card { text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 20px; margin-top: 18px; }
 .done-emoji { font-size: 48px; }
 

@@ -12,6 +12,7 @@ const defaultState = () => ({
   cards: {},            // wordId -> srs card record
   settings: {
     newPerDay: 15,
+    endless: false,       // ignore the daily new-word cap (marathon mode)
     retention: 0.9,
     pixabayKey: DEFAULT_PIXABAY_KEY,
     images: true,

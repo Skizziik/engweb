@@ -91,6 +91,7 @@ function renderHome() {
           ]),
         ]),
       ]),
+      endlessRow(),
       counts.total > 0
         ? el('button.btn.primary.big.start-btn', {
             onclick: () => { go('study'); },
@@ -119,6 +120,23 @@ function renderHome() {
   );
 }
 function renderHome2() { clear(app); renderHome(); } // re-render to reflect mode selection
+
+function endlessRow() {
+  const on = state.getSettings().endless;
+  const sw = el(`button.switch${on ? '.on' : ''}`, {}, [el('i')]);
+  sw.addEventListener('click', () => {
+    const next = !state.getSettings().endless;
+    state.updateSettings({ endless: next });
+    renderHome2();
+  });
+  return el('div.endless-row', {}, [
+    el('div.endless-text', {}, [
+      el('span.endless-title', { html: '♾️ Бесконечный режим' }),
+      el('span.endless-sub', { text: on ? 'без дневного лимита — слова идут потоком' : `лимит ${state.getSettings().newPerDay} новых/день (рекомендуется)` }),
+    ]),
+    sw,
+  ]);
+}
 
 // ---------------------------------------------------------------- session
 function pickMode(word, card, isNew) {
@@ -362,6 +380,7 @@ function renderSettings() {
       el('button.back-btn', { onclick: () => go('home'), html: '← Назад' }),
       el('h2', { text: 'Настройки' }),
 
+      switchRow('♾️ Бесконечный режим (без лимита новых)', s.endless, (v) => state.updateSettings({ endless: v })),
       settingRow('Новых слов в день', sliderControl(s.newPerDay, 5, 50, 5, (v) => state.updateSettings({ newPerDay: v }))),
       settingRow('Целевое запоминание', sliderControl(Math.round(s.retention * 100), 70, 97, 1, (v) => state.updateSettings({ retention: v / 100 }), '%')),
 
