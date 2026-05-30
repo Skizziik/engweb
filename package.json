@@ -1,0 +1,15 @@
+{
+  "name": "wordowl",
+  "version": "1.0.0",
+  "description": "WordOwl — умная мини-игра для изучения английских слов (FSRS, картинки, озвучка)",
+  "type": "module",
+  "scripts": {
+    "build-data": "node tools/build-dataset.mjs",
+    "test": "node tools/smoke.mjs",
+    "serve": "python3 -m http.server 8000"
+  },
+  "devDependencies": {
+    "jsdom": "^24.0.0"
+  },
+  "license": "MIT"
+}
