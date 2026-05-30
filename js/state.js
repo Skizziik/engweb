@@ -18,7 +18,7 @@ const defaultState = () => ({
     images: true,
     autoAudio: true,
     levels: ['A1', 'A2', 'B1', 'B2', 'C1'], // which levels to draw new words from
-    theme: 'dark',
+    theme: 'light',
   },
   stats: {
     xp: 0,

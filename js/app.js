@@ -12,6 +12,7 @@ import { renderVisual, photoFor } from './images.js';
 import { pronounce } from './audio.js';
 import * as Flashcard from './games/flashcard.js';
 import * as Choice from './games/choice.js';
+import * as Quiz from './games/quiz.js';
 import * as Typing from './games/typing.js';
 import * as Listening from './games/listening.js';
 
@@ -43,7 +44,8 @@ function renderTopbar() {
             el('span.tb-xp-text', { text: `${s.xp} XP` }),
           ]),
         ]),
-        el('button.icon-btn', { onclick: () => go('settings'), title: 'Настройки' }, [el('span', { html: '⚙️' })]),
+        el('button.icon-btn', { onclick: toggleTheme, title: 'Тема' }, [el('span', { html: state.getSettings().theme === 'dark' ? '☀' : '☾' })]),
+        el('button.icon-btn', { onclick: () => go('settings'), title: 'Настройки' }, [el('span', { html: '⚙' })]),
       ]),
     ])
   );
@@ -71,11 +73,12 @@ function renderHome() {
   const ring = circularProgress(pct);
 
   const modes = [
-    { id: 'mix', icon: '🧠', label: 'Умный микс', desc: 'Карточки + тесты + ввод + аудио' },
-    { id: 'flash', icon: '🃏', label: 'Карточки', desc: 'Вспомни и оцени себя' },
-    { id: 'choice', icon: '✅', label: 'Выбор', desc: 'Выбери правильный перевод' },
-    { id: 'type', icon: '⌨️', label: 'Ввод', desc: 'Напиши слово по-английски' },
-    { id: 'listen', icon: '🎧', label: 'Аудирование', desc: 'Запиши то, что услышал' },
+    { id: 'mix', icon: '✦', label: 'Умный микс', desc: 'Тест + ввод + аудио по очереди' },
+    { id: 'quiz', icon: '⚡', label: 'Быстрый тест', desc: 'Англ → 4 варианта → сразу дальше' },
+    { id: 'flash', icon: '❏', label: 'Карточки', desc: 'Вспомни и оцени себя' },
+    { id: 'choice', icon: '⇄', label: 'Выбор', desc: 'Перевод в обе стороны' },
+    { id: 'type', icon: '⌨', label: 'Ввод', desc: 'Напиши слово по-английски' },
+    { id: 'listen', icon: '♪', label: 'Аудирование', desc: 'Запиши то, что услышал' },
   ];
 
   app.appendChild(
@@ -140,6 +143,8 @@ function endlessRow() {
 
 // ---------------------------------------------------------------- session
 function pickMode(word, card, isNew) {
+  // Quiz is an explicit fast drill — honour it even for brand-new words.
+  if (focusMode === 'quiz') return Quiz;
   if (focusMode === 'flash' || isNew) return Flashcard;
   if (focusMode === 'choice') return Choice;
   if (focusMode === 'type') return Typing;
@@ -538,7 +543,13 @@ function lastNDays(n) {
 
 // theme
 function applyTheme() {
-  document.documentElement.dataset.theme = state.getSettings().theme || 'dark';
+  document.documentElement.dataset.theme = state.getSettings().theme || 'light';
+}
+function toggleTheme() {
+  const next = state.getSettings().theme === 'dark' ? 'light' : 'dark';
+  state.updateSettings({ theme: next });
+  applyTheme();
+  renderTopbar();
 }
 
 // ---------------------------------------------------------------- boot

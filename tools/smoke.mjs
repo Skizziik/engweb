@@ -31,7 +31,7 @@ await import('../js/app.js');
 const W = window.WordOwl;
 
 await new Promise((r) => setTimeout(r, 50));
-ok('home renders', document.querySelector('.home') && document.querySelectorAll('.mode-card').length === 5);
+ok('home renders', document.querySelector('.home') && document.querySelectorAll('.mode-card').length === 6);
 
 W.go('stats');
 ok('stats renders', document.querySelector('.stats') && document.querySelectorAll('.big-stat').length === 6);
