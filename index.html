@@ -13,6 +13,16 @@
   <header id="topbar"></header>
   <main id="app"></main>
   <script type="module" src="js/app.js"></script>
+  <script>
+    // Network-first service worker: a normal page refresh always loads the
+    // latest deployed version (no private windows / hard-reload needed),
+    // and the app still works offline from cache.
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
   <noscript>Для работы приложения нужен включённый JavaScript.</noscript>
 </body>
 </html>
